@@ -1,0 +1,7 @@
+__pycache__
+Discord
+/src/tmp/**
+!/src/tmp/.gitkeep
+/src/tiles/**
+!/src/tiles/.gitkeep
+.env
