@@ -21,7 +21,7 @@ async def on_ready():
 
 class EasyHaiGeneratorModal(Modal):
     def __init__(self) -> None:
-        super().__init__(title="簡易牌生成")
+        super().__init__(title="麻雀牌ジェネレーター 簡易Ver.")
         self.add_item(InputText(label="萬子", required=False))
         self.add_item(InputText(label="筒子", required=False))
         self.add_item(InputText(label="索子", required=False))
@@ -36,9 +36,26 @@ class EasyHaiGeneratorModal(Modal):
         else:
             await interaction.response.send_message(file=discord.File(file_path))
 
-@bot.slash_command(description="麻雀牌の画像ジェネレーター 簡易Ver.", guild_ids=GUILD_ID)
+class HaiGeneratorModal(Modal):
+    def __init__(self) -> None:
+        super().__init__(title="麻雀牌ジェネレーター 詳細Ver.")
+        self.add_item(InputText(label="コード", placeholder="例：4m/5m/6m/4p/5p/9p/9p/@t/6p/@l/@b/1z/1z/@b/@f/r5s/4s/6s"))
+    
+    async def callback(self, interaction: discord.Interaction):
+        file_path = hai_generator.hai_img_generate(self.children[0].value)
+        if not file_path:
+            await interaction.response.send_message(f"入力された値が不正です")
+        else:
+            await interaction.response.send_message(file=discord.File(file_path))
+
+@bot.slash_command(description="麻雀牌ジェネレーター 簡易Ver.", guild_ids=GUILD_ID)
 async def easymakehai(ctx):
     modal = EasyHaiGeneratorModal()
+    await ctx.interaction.response.send_modal(modal)
+
+@bot.slash_command(description="麻雀牌の画像ジェネレーター 詳細Ver.", guild_ids=GUILD_ID)
+async def makehai(ctx):
+    modal = HaiGeneratorModal()
     await ctx.interaction.response.send_modal(modal)
 
 bot.run(TOKEN)
