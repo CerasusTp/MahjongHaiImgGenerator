@@ -31,15 +31,15 @@ def hai_img_generate(code):
         elif tile == '@f':
             next_furo =True
         elif tile == '@b':
-            img.paste(Image.open(f'tiles/b.png').convert('RGBA'), (left_corner, 0))
+            img.paste(Image.open(f'./tiles/b.png').convert('RGBA'), (left_corner, 0))
             left_corner += IMG_WIDTH
         elif check_hai_code(tile):
             if next_furo:
-                img.paste(Image.open(f'tiles/{tile}.png').convert('RGBA').rotate(90, expand=True), (left_corner, IMG_HEIGHT - IMG_WIDTH))
+                img.paste(Image.open(f'./tiles/{tile}.png').convert('RGBA').rotate(90, expand=True), (left_corner, IMG_HEIGHT - IMG_WIDTH))
                 left_corner += IMG_HEIGHT
                 next_furo = False
             else:
-                img.paste(Image.open(f'tiles/{tile}.png').convert('RGBA'), (left_corner, 0))
+                img.paste(Image.open(f'./tiles/{tile}.png').convert('RGBA'), (left_corner, 0))
                 left_corner += IMG_WIDTH
         else:
             return False
@@ -51,7 +51,10 @@ def easy_hai_img_generate(man: int = '', pin: int = '', sou: int = '', honors: i
     code = ''
     for k, v in tiles_items.items():
         for i in str(v):
-            code += f'{i}{k}/'
+            if i == '0':
+                code += f'r5{k}/'
+            else:
+                code += f'{i}{k}/'
     if tsumo != '':
         code += f'@t/{tsumo}'
     else:
@@ -60,4 +63,4 @@ def easy_hai_img_generate(man: int = '', pin: int = '', sou: int = '', honors: i
     return file_path
 
 if __name__ == '__main__':
-    hai_img_generate('1m/2m/3m/5m/5m/2z/2z/@t/5m/@l/@b/1s/1s/@b/@f/2m/1m/3m')
+    print(hai_img_generate('1m/2m/3m/5m/5m/2z/2z/@t/5m/@l/@b/1s/1s/@b/@f/2m/1m/3m'))

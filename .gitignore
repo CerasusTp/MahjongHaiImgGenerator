@@ -1,5 +1,6 @@
 __pycache__
 Discord
+.vscode
 /src/tmp/**
 !/src/tmp/.gitkeep
 /src/tiles/**
